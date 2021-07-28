@@ -1,0 +1,10 @@
+* {
+    padding: 0;
+    margin: 0;
+    background-image: 100% url("./img/tapis.jpeg");
+}
+
+.white-text {
+    color: white;
+}
+
