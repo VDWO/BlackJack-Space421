@@ -32,8 +32,10 @@ class App extends React.Component {
         return <Result />;
       default:
         return (
-          <div>
-            <h1>BLACKJACK</h1>
+          <div className="pt-3" >
+            <div className="flex">
+              <img src="/img/title-app.png" alt="logo" style={{ width: "350px"}}></img>
+            </div>
             <Rules />
             <Button onClick={this.handleClickPlay}>Play</Button>
           </div>

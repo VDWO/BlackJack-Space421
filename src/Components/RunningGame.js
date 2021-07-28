@@ -1,5 +1,5 @@
 import React from "react";
-// import Player from "./Player";
+import Player from "./Player";
 
 class RunningGame extends React.Component {
   constructor() {
@@ -98,10 +98,16 @@ class RunningGame extends React.Component {
   render() {
     return (
       <div>
-        <Player />
+        <Player
+          bankHand = {this.state.bankHand}
+          playerHand = {this.state.playerHand}
+          playerCash = {this.state.playerCash}
+          bet = {this.state.bet}
+        />
       </div>
     );
   }
 }
+
 
 export default RunningGame;
