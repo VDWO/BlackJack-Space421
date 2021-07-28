@@ -34,7 +34,7 @@ class RunningGame extends React.Component {
       ["1D","2D","3D","4D","5D","6D","7D","8D","9D","10D","JD","QD","KD"],
       ["1H","2H","3H","4H","5H","6H","7H","8H","9H","10H","JH","QH","KH"],
       ["1S","2S","3S","4S","5S","6S","7S","8S","9S","10S","JS","QS","KS"],
-      ["1D","2C","3C","4C","5C","6C","7C","8C","9C","10C","JC","QC","KC"],
+      ["1C","2C","3C","4C","5C","6C","7C","8C","9C","10C","JC","QC","KC"],
     ];
     const cardNumber = (Math.floor(Math.random() * 13));
     const cardSuits = (Math.floor(Math.random() * 4));
@@ -57,41 +57,36 @@ class RunningGame extends React.Component {
     this.setRound()
   }
 
- /*  // Fonction qui permet d'ajouter un carte à la main d'un joueur et arrêter le round s'il dépasse 21
-  addPlayerCart = () => {
-
+ // Fonction qui permet d'ajouter un carte à la main d'un joueur et arrêter le round s'il dépasse 21
+  addPlayerCard = () => {
     this.setState(prevState => ({
       ...prevState,
       PlayerHand: [...prevState.PlayerHand,this.drawCard()]
     }))
-
-    if (this.state.playerHand[Valeur] > 21) {
-      Diminuer la cagnotte du joueur
+    if (/* this.state.playerHand[Valeur] */ > 21) {
+      //Diminuer la cagnotte du joueur -> round suivant
     }
-
-  } */
-  // Envoyer la nouvelle cart en props
+  }
 
   // Fonction qui permet d'ajouter des carte au banquier et/ou de comparer le résultat du round
-  /* passOrResult = () => {
+  passAndResult = () => {
     
-    while (this.state.bankHand[Valeur] <= 15) {
+    while (/* this.state.bankHand[Valeur] */ < 16) {
       this.setState(prevState => ({
         ...prevState,
         BankHand: [...prevState.BankHand,this.drawCard()] 
       }))
     }
     
-    If (this.state.bankHand[Valeur] > 21) {
-      augmenter la cagnotte du joueur
+    if (this.state.bankHand[Valeur] > 21) {
+      //augmenter la cagnotte du joueur -> next round
     } 
-    else if (this.state.bankHand[Valeur] >= this.state.playerHand[Valeur]) {
-        Diminuer la cagnotte du joueur
+    else if (/* this.state.bankHand[Valeur] */ >= /* this.state.playerHand[Valeur] */) {
+       // Diminuer la cagnotte du joueur -> next round
     } else {
-        Augmenter la cagnotte du joueur
+       // Augmenter la cagnotte du joueur -> next round
     }
-
-  }; */
+  };
 
  /*  fonctionafficheCarte = () => { // fetche pour le visuel des cartes }; */
 
@@ -103,6 +98,7 @@ class RunningGame extends React.Component {
           playerHand = {this.state.playerHand}
           playerCash = {this.state.playerCash}
           bet = {this.state.bet}
+          onClick = {this.addPlayerCard}
         />
       </div>
     );
