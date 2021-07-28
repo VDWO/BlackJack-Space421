@@ -1,5 +1,5 @@
 import React from "react";
-import Player from "./Player";
+// import Player from "./Player";
 
 class RunningGame extends React.Component {
   constructor() {
@@ -7,6 +7,10 @@ class RunningGame extends React.Component {
 
     this.state = {
       image: "",
+      bankHand: [],
+      playerHand: [],
+      playerCash: 100,
+      bet: 0
     };
   }
 
@@ -24,36 +28,77 @@ class RunningGame extends React.Component {
     }));
   }; */
 
-  FonctionDistribution = () => {
-    // Random conditionnel entre 1 à 13 + valeur de 1 à 4 (pour la lettre) Banque *2
-    // Random conditionnel entre 1 à 13 joueur *2 +  en props les cartes pour pouvoir les afficher dans composant Player
-    // ajouter une carte
+  // Fonction qui permet de piocher une carte
+  drawCard = () => {
+    const cardArray = [
+      ["1D","2D","3D","4D","5D","6D","7D","8D","9D","10D","JD","QD","KD"],
+      ["1H","2H","3H","4H","5H","6H","7H","8H","9H","10H","JH","QH","KH"],
+      ["1S","2S","3S","4S","5S","6S","7S","8S","9S","10S","JS","QS","KS"],
+      ["1D","2C","3C","4C","5C","6C","7C","8C","9C","10C","JC","QC","KC"],
+    ];
+    const cardNumber = (Math.floor(Math.random() * 13));
+    const cardSuits = (Math.floor(Math.random() * 4));
+    return cardArray[cardSuits][cardNumber]
   };
 
-  fonctionafficheCarte = () => {
-    // fetche pour le visuel des cartes
-  };
+  // Fonction qui permet de distribuer 2 cartes a chaque joueur (et Banque)
+  setRound = () => {
+    this.setState(prevState => ({
+      ...prevState,
+      playerHand: [this.drawCard(),this.drawCard()],
+      bankHand: [this.drawCard(),this.drawCard()]
+    }))
+  }
 
-  fonctionPass = () => {
-    // comparaison des jeux entre le joueur et la banque condition qui met à jour la cagnotte
-    // => fonctionJeu
-  };
+  componentDidUpdate() {
+    console.log(this.state)
+  }
+  componentDidMount() {
+    this.setRound()
+  }
 
-  fonctionCarte = () => {
-    // Ici ajouter une carte au joueur et traiter s'il dépasse la valeur 21
-  };
+ /*  // Fonction qui permet d'ajouter un carte à la main d'un joueur et arrêter le round s'il dépasse 21
+  addPlayerCart = () => {
 
-  fonctionCompare21 = () => {}; // ici on compare si le joueur ou la banque à passé 21 + on regarde si la banque est au dessus de 16
+    this.setState(prevState => ({
+      ...prevState,
+      PlayerHand: [...prevState.PlayerHand,this.drawCard()]
+    }))
 
-  fonctionCompareJoueur = () => {}; // ici on compare la banque et le joueur
+    if (this.state.playerHand[Valeur] > 21) {
+      Diminuer la cagnotte du joueur
+    }
+
+  } */
+  // Envoyer la nouvelle cart en props
+
+  // Fonction qui permet d'ajouter des carte au banquier et/ou de comparer le résultat du round
+  /* passOrResult = () => {
+    
+    while (this.state.bankHand[Valeur] <= 15) {
+      this.setState(prevState => ({
+        ...prevState,
+        BankHand: [...prevState.BankHand,this.drawCard()] 
+      }))
+    }
+    
+    If (this.state.bankHand[Valeur] > 21) {
+      augmenter la cagnotte du joueur
+    } 
+    else if (this.state.bankHand[Valeur] >= this.state.playerHand[Valeur]) {
+        Diminuer la cagnotte du joueur
+    } else {
+        Augmenter la cagnotte du joueur
+    }
+
+  }; */
+
+ /*  fonctionafficheCarte = () => { // fetche pour le visuel des cartes }; */
 
   render() {
     return (
       <div>
-        RunningGame /// un visuel banque
         <Player />
-        {this.deckCard}
-        <img src={this.state.image}></img>
       </div>
     );
   }
