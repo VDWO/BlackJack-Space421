@@ -129,7 +129,7 @@ class RunningGame extends React.Component {
           ...prevState,
           playerCash: prevState.playerCash + this.state.bet
         }));
-         console.log("Player win")
+         console.log("Player winn")
       }
   }
 ;
