@@ -10,7 +10,7 @@ class RunningGame extends React.Component {
       bankHand: [],
       playerHand: [],
       playerCash: 100,
-      bet: 0
+      bet: 0,
     };
   }
 
@@ -61,18 +61,19 @@ class RunningGame extends React.Component {
 
   // Fonction qui somme les cartes en main du joueur ou de la bank
   handValue = (param) => {
-    let handValue = 0
+    let handValueCaluated = 0
 
     this.state[`${param}`].map(card => {  
         if (card.substring(0, (card.length - 1)) === "A") {
-          return handValue += 11
+          return handValueCaluated += 11
         } else if (isNaN(parseInt(card.substring(0, (card.length - 1))))) {
-          return handValue += 10        
+          return handValueCaluated += 10        
         } else {
-          return handValue += parseInt(card.substring(0, (card.length - 1)))
+          return handValueCaluated += parseInt(card.substring(0, (card.length - 1)))
         }       
     })
-    console.log(handValue)
+    console.log(handValueCaluated)
+    return handValueCaluated
   }
 
   // View bet => lors ce que le joueur selectionne sa mise
@@ -85,48 +86,53 @@ class RunningGame extends React.Component {
 
   // Fonction qui permet d'ajouter un carte à la main d'un joueur et arrêter le round s'il dépasse 21
   addPlayerCard = () => {
-    this.setState(prevState => ({
+     this.setState(prevState => ({
       ...prevState,
       playerHand: [...prevState.playerHand,this.drawCard()]
-    }))
-    if (this.handValue("playerHand") > 21) {
-      this.setState((prevState) => ({
-      ...prevState,
-      playerCash: prevState.playerCash - this.state.bet
-      }));
-    }
-  }
-  // Fonction qui permet d'ajouter des carte au banquier et/ou de comparer le résultat du round
-  updateCashPlayer = () => {
-    
-    while (this.handValue("bankHand") < 16) {
-      this.setState(prevState => ({
-        ...prevState,
-        BankHand: [...prevState.BankHand,this.drawCard()] 
-      }))
-    }
-    
-    if (this.handValue("bankHand")  > 21) {
-      this.setState((prevState) => ({
-        ...prevState,
-        playerCash: prevState.playerCash + this.state.bet
-      }));
-      console.log("BankLose")
-    } 
-    else if (this.handValue("bankHand") >= this.handValue("playerHand") ) { // CHECK POUR L'EGALITE !!!!
-      this.setState((prevState) => ({
+    }), () => {
+      if (this.handValue("playerHand") > 21) {
+        this.setState((prevState) => ({
         ...prevState,
         playerCash: prevState.playerCash - this.state.bet
-      }));
-       console.log("Bank win")
-    } else {
-      this.setState((prevState) => ({
-        ...prevState,
-        playerCash: prevState.playerCash + this.state.bet
-      }));
-       console.log("Player win")
-    }
-  };
+        }));
+      console.log("Player lose")
+      }
+    })
+    //console.log(this.handValue("playerHand"))
+  }
+
+  // Fonction qui permet d'ajouter des carte au banquier et/ou de comparer le résultat du round
+  updateCashPlayer = () => {
+        while {
+          if (this.handValue("bankHand") < 16) {
+          this.setState(prevState => ({
+            ...prevState,
+            bankHand: [...prevState.bankHand,this.drawCard()] 
+          }), () => { 
+            setTimeout(1000); // On attend 1 sec
+          })}
+    
+      if (this.handValue("bankHand")  > 21) {
+        this.setState((prevState) => ({
+          ...prevState,
+          playerCash: prevState.playerCash + this.state.bet
+        }));
+        console.log("Bank lose")
+      } else if (this.handValue("bankHand") >= this.handValue("playerHand")) { // CHECK POUR L'EGALITE !!!!
+        this.setState((prevState) => ({
+          ...prevState,
+          playerCash: prevState.playerCash - this.state.bet
+        }));
+         console.log("Bank win")
+      } else {
+        this.setState((prevState) => ({
+          ...prevState,
+          playerCash: prevState.playerCash + this.state.bet
+        }));
+         console.log("Player win")
+      }
+  }
+;
 
  /*  fonctionafficheCarte = () => { // fetche pour le visuel des cartes }; */
 
@@ -141,6 +147,7 @@ class RunningGame extends React.Component {
           updateBet = {this.updateBetPlayer}
           updateCash = {this.updateCashPlayer}
           onClickPlay = {this.addPlayerCard}
+          //betStatus = // ton props
         />
       </div>
     );

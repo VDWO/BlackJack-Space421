@@ -45,20 +45,22 @@ class Player extends React.Component {
       ...prevState,
       isBet: true
     }));
-
   }
+
+  // condition d'erreur à ajouter
 
   render() {
     if (this.state.isBet === false)
       return <div className="container white-text d-flex flex-column ">
                 <p className="text-center">Chose your bet:</p>
                 <p className="text-center">{this.props.bet}€</p>
-                <input type="range" min="0" max={this.props.playerCash} onChange={this.handleUpdateBet}></input>
+                <input type="text" min="0" max={this.props.playerCash} onChange={this.handleUpdateBet}></input>
                 <Button onClick={this.handleClick}>Continue</Button>
             </div>
             else {
               return <div className="container bck-marine white-text d-flex flex-column">
-                        <p className="text-center">Your jackpot: {this.state.betTotal}€</p>
+                        <p>Your jackpot is {this.props.playerCash}€</p>
+                        <p className="text-center">Your bet: {this.props.bet}€</p>
                         <img src={this.state.image} alt="card"></img>
 
                         <div>
