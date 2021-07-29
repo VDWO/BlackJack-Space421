@@ -52,74 +52,81 @@ class RunningGame extends React.Component {
 
   componentDidUpdate() {
     console.log(this.state)
-    this.playerHandValue()
-    this.bankHandValue()
+    this.handValue("bankHand")
+    this.handValue("playerHand")
   }
   componentDidMount() {
     this.setRound()
   }
 
-  // Fonction qui somme les cartes en main du joueur
-  playerHandValue = () => {
+  // Fonction qui somme les cartes en main du joueur ou de la bank
+  handValue = (param) => {
     let handValue = 0
 
-    this.state.playerHand.map(card => {  
+    this.state[`${param}`].map(card => {  
         if (card.substring(0, (card.length - 1)) === "A") {
           return handValue += 11
         } else if (isNaN(parseInt(card.substring(0, (card.length - 1))))) {
           return handValue += 10        
         } else {
-            handValue += parseInt(card.substring(0, (card.length - 1)))
+          return handValue += parseInt(card.substring(0, (card.length - 1)))
         }       
     })
     console.log(handValue)
   }
 
-  // Fonction qui somme les cartes en main de la banque
-  bankHandValue = () => {
-    let handValue = 0
+  // View bet => lors ce que le joueur selectionne sa mise
+  updateBetPlayer = (e) => {
+    this.setState((prevState) => ({
+        ...prevState,
+        bet: parseInt(e.target.value),
+    }));
+  };
 
-    this.state.bankHand.map(card => {  
-        if (card.substring(0, (card.length - 1)) === "A") {
-          return handValue += 11
-        } else if (isNaN(parseInt(card.substring(0, (card.length - 1))))) {
-          return handValue += 10        
-        } else {
-            handValue += parseInt(card.substring(0, (card.length - 1)))
-        }       
-    })
-    console.log(handValue)
-  }
-
-/*   // Fonction qui permet d'ajouter un carte à la main d'un joueur et arrêter le round s'il dépasse 21
+  // Fonction qui permet d'ajouter un carte à la main d'un joueur et arrêter le round s'il dépasse 21
   addPlayerCard = () => {
     this.setState(prevState => ({
       ...prevState,
-      PlayerHand: [...prevState.PlayerHand,this.drawCard()]
+      playerHand: [...prevState.playerHand,this.drawCard()]
     }))
-    if (handValue("playerHand") > 21) {
-      //Diminuer la cagnotte du joueur -> round suivant
+    if (this.handValue("playerHand") > 21) {
+      this.setState((prevState) => ({
+      ...prevState,
+      playerCash: prevState.playerCash - this.state.bet
+      }));
     }
   }
   // Fonction qui permet d'ajouter des carte au banquier et/ou de comparer le résultat du round
-  passAndResult = () => {
+  updateCashPlayer = () => {
     
-    while (handValue("bankHand") < 16) {
+    while (this.handValue("bankHand") < 16) {
       this.setState(prevState => ({
         ...prevState,
         BankHand: [...prevState.BankHand,this.drawCard()] 
       }))
     }
     
-    if (handValue("bankHand")  > 21) {
-      //augmenter la cagnotte du joueur -> next round
+    if (this.handValue("bankHand")  > 21) {
+      this.setState((prevState) => ({
+        ...prevState,
+        playerCash: prevState.playerCash + this.state.bet
+      }));
+      console.log("BankLose")
     } 
-    else if (handValue("bankHand") >= handValue("playerHand") ) {
-       // Diminuer la cagnotte du joueur -> next round
+    else if (this.handValue("bankHand") >= this.handValue("playerHand") ) { // CHECK POUR L'EGALITE !!!!
+      this.setState((prevState) => ({
+        ...prevState,
+        playerCash: prevState.playerCash - this.state.bet
+      }));
+       console.log("Bank win")
     } else {
-       // Augmenter la cagnotte du joueur -> next round
+      this.setState((prevState) => ({
+        ...prevState,
+        playerCash: prevState.playerCash + this.state.bet
+      }));
+       console.log("Player win")
     }
-  }; */
+  };
 
  /*  fonctionafficheCarte = () => { // fetche pour le visuel des cartes }; */
 
@@ -131,8 +138,9 @@ class RunningGame extends React.Component {
           playerHand = {this.state.playerHand}
           playerCash = {this.state.playerCash}
           bet = {this.state.bet}
-          onClick = {this.addPlayerCard}
-          onClick = {this.passAndResult}
+          updateBet = {this.updateBetPlayer}
+          updateCash = {this.updateCashPlayer}
+          onClickPlay = {this.addPlayerCard}
         />
       </div>
     );

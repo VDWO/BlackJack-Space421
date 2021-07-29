@@ -14,8 +14,6 @@ class Player extends React.Component {
     super();
 
     this.state = {
-      betPlayer: 0,
-      betTotal: 0,
       image: "",
       isBet: false,
     }
@@ -37,34 +35,26 @@ class Player extends React.Component {
     });
   };
 
-  // View bet => lors ce que le joueur selectionne sa mise
-  updateBetPlayer = (e) => {
-    this.setState((prevState) => {
-      return {
-        ...prevState,
-        betPlayer: parseInt(e.target.value),
-      };
-    });
-  };
+  handleUpdateBet = (e) => {
+    const param = e
+    this.props.updateBet(param)
+  }
 
-  validateBet= () => {
-    return (
-      this.setState(prevState => {
-      return {
-        ...prevState,
-        betTotal: prevState.betPlayer + prevState.betTotal,
-        isBet: true,
-      }})
-    );
-  };
+  handleClick = () => {
+    this.setState(prevState => ({
+      ...prevState,
+      isBet: true
+    }));
+
+  }
 
   render() {
     if (this.state.isBet === false)
       return <div className="container white-text d-flex flex-column ">
                 <p className="text-center">Chose your bet:</p>
-                <p className="text-center">{this.state.betPlayer}€</p>
-                <input type="range" min="0" max={this.props.playerCash} onChange={this.updateBetPlayer}></input>
-                <Button onClick={this.validateBet}>Continue</Button>
+                <p className="text-center">{this.props.bet}€</p>
+                <input type="range" min="0" max={this.props.playerCash} onChange={this.handleUpdateBet}></input>
+                <Button onClick={this.handleClick}>Continue</Button>
             </div>
             else {
               return <div className="container bck-marine white-text d-flex flex-column">
@@ -76,8 +66,8 @@ class Player extends React.Component {
                         </div>
 
                         <div className="d-flex justify-content-around">
-                          <Button onClickCard={this.props.onClickCard}>Card</Button>
-                          <Button onClickPass={this.props.onClickPass}>Pass</Button>
+                          <Button onClick={this.props.onClickPlay}>Card</Button>
+                          <Button onClick={this.props.updateCash}>Pass</Button>
                         </div>
                      </div>
             };
