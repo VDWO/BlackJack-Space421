@@ -15,7 +15,6 @@ class Player extends React.Component {
 
     this.state = {
       image: "",
-      isBet: false,
     }
   }
 
@@ -40,22 +39,20 @@ class Player extends React.Component {
     this.props.updateBet(param)
   }
 
-  handleClick = () => {
-    this.setState(prevState => ({
-      ...prevState,
-      isBet: true
-    }));
-  }
-
   // condition d'erreur à ajouter
 
   render() {
-    if (this.state.isBet === false)
+
+    let valeurTest = this.props.isBetState // ici la valeur reçu donne un undefine
+    console.log(valeurTest)
+
+    if ( valeurTest === false)
+
       return <div className="container white-text d-flex flex-column ">
                 <p className="text-center">Chose your bet:</p>
                 <p className="text-center">{this.props.bet}€</p>
                 <input type="text" min="0" max={this.props.playerCash} onChange={this.handleUpdateBet}></input>
-                <Button onClick={this.handleClick}>Continue</Button>
+                <Button onClick={this.props.changeBetState}>Continue</Button> //////
             </div>
             else {
               return <div className="container bck-marine white-text d-flex flex-column">

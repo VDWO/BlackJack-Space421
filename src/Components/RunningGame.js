@@ -11,6 +11,7 @@ class RunningGame extends React.Component {
       playerHand: [],
       playerCash: 100,
       bet: 0,
+      isBet: false
     };
   }
 
@@ -56,7 +57,15 @@ class RunningGame extends React.Component {
     this.handValue("playerHand")
   }
   componentDidMount() {
+    this.nextRound()
+  }
+
+  nextRound = () => {
     this.setRound()
+    this.setState(prevState => ({
+      ...prevState,
+      isBet: false
+    }))
   }
 
   // Fonction qui somme les cartes en main du joueur ou de la bank
@@ -101,16 +110,22 @@ class RunningGame extends React.Component {
     //console.log(this.handValue("playerHand"))
   }
 
+  addbankCard = () => {
+    this.setState(prevState => ({
+      ...prevState,
+      bankHand: [...prevState.bankHand,this.drawCard()] 
+    }), () => {
+      this.updateCashPlayer()
+    })
+  }
+
   // Fonction qui permet d'ajouter des carte au banquier et/ou de comparer le résultat du round
   updateCashPlayer = () => {
-        while {
-          if (this.handValue("bankHand") < 16) {
-          this.setState(prevState => ({
-            ...prevState,
-            bankHand: [...prevState.bankHand,this.drawCard()] 
-          }), () => { 
-            setTimeout(1000); // On attend 1 sec
-          })}
+        
+      if (this.handValue("bankHand") < 16) {
+        this.addbankCard()
+        return; // on arrêt updateCashPlayer 
+      }  
     
       if (this.handValue("bankHand")  > 21) {
         this.setState((prevState) => ({
@@ -131,6 +146,8 @@ class RunningGame extends React.Component {
         }));
          console.log("Player winn")
       }
+
+      this.nextRound()
   }
 ;
 
@@ -144,15 +161,10 @@ class RunningGame extends React.Component {
           playerHand = {this.state.playerHand}
           playerCash = {this.state.playerCash}
           bet = {this.state.bet}
-<<<<<<< HEAD
-          onClickPlay = {this.addPlayerCard}
-          onClickPass = {this.passAndResult}
-=======
           updateBet = {this.updateBetPlayer}
           updateCash = {this.updateCashPlayer}
           onClickPlay = {this.addPlayerCard}
           //betStatus = // ton props
->>>>>>> 84fc66d2111e31d0aaf26fd4c473afc632cc1a7c
         />
       </div>
     );
