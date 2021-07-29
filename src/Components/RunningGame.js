@@ -132,8 +132,8 @@ class RunningGame extends React.Component {
           playerHand = {this.state.playerHand}
           playerCash = {this.state.playerCash}
           bet = {this.state.bet}
-          onClick = {this.addPlayerCard}
-          onClick = {this.passAndResult}
+          onClickPlay = {this.addPlayerCard}
+          onClickPass = {this.passAndResult}
         />
       </div>
     );

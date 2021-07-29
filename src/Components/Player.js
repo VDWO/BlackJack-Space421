@@ -76,8 +76,8 @@ class Player extends React.Component {
                         </div>
 
                         <div className="d-flex justify-content-around">
-                          <Button>Card</Button>
-                          <Button>Pass</Button>
+                          <Button onClickPlay={this.props.onClickPlay}>Card</Button>
+                          <Button onClickPass={this.props.onClickPass}>Pass</Button>
                         </div>
                      </div>
             };
