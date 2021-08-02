@@ -127,11 +127,9 @@ constructor() {
           case "blackjack":
             return(
               <div className="container d-flex flex-column justify-content-center align-items-center mb3">
-              <img src="/img/title-app.png" alt="logo" style={{ width: "350px"}}></img>
+                <img src="/img/title-app.png" alt="logo" style={{ width: "350px"}}></img>
 
-                {this.props.bankHandValue === 21 
-                ? <div className="white-text size mb3">Bank</div> 
-                : <div className="white-text size mb3">Player</div>}
+                <div className="white-text size mb3">Player</div>
 
                 <span className="white-text size mb3">BLACK JACK</span>
 

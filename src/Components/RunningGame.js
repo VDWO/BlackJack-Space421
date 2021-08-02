@@ -45,7 +45,7 @@ class RunningGame extends React.Component {
         playerHand: [this.drawCard(),this.drawCard()],
         bankHand: [this.drawCard(),this.drawCard()],
       }));
-    }
+    };
   };
 
   componentDidUpdate() {
@@ -89,7 +89,7 @@ class RunningGame extends React.Component {
       }));
     };
 
-    if (this.handValue("bankHand") === 21 || this.handValue("playerHand") === 21) {
+    if (this.handValue("playerHand") === 21) {
       this.setState((prevState) => ({
         ...prevState,
         isBet: "blackjack",
@@ -102,7 +102,7 @@ class RunningGame extends React.Component {
   updateBlackJackStatus = () => {
     this.setState((prevState) => ({
       ...prevState,
-      playerCash: prevState.playerCash - this.state.bet,
+      playerCash: prevState.playerCash + (this.state.bet * 1.5),
       isBet: "bet",
     }))
   }
