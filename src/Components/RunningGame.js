@@ -16,7 +16,7 @@ class RunningGame extends React.Component {
       playerHand: [],
       playerCash: 100,
       bet: 0,
-      isBet: "bet", // bet / play / result 
+      isBet: "bet", // bet / play / result
     };
   };
 
@@ -38,7 +38,7 @@ class RunningGame extends React.Component {
     this.setState(prevState => ({
       ...prevState,
       playerHand: [this.drawCard(),this.drawCard()],
-      bankHand: [this.drawCard(),this.drawCard()]
+      bankHand: [this.drawCard(),this.drawCard()],
     }));
   };
 
@@ -70,14 +70,6 @@ class RunningGame extends React.Component {
     });
     return handValueCalulated
   };
-
- /*  // Fonction qui permet au joueur de miser
-  updateBetPlayer = (e) => {
-    this.setState((prevState) => ({
-        ...prevState
-        bet: parseInt(e.target.value),
-    }));
-  }; */
 
   // Une fois que le joueur à miser, cette fonction met à jour le state 'isBet', cet état permet de passer en mode jeu
   updateBetStatus = (e) => {
@@ -171,11 +163,10 @@ class RunningGame extends React.Component {
   render() {
     return (
         <div >
-            {/* <Card 
-            bankHand = {this.state.bankHand}
-            playerHand = {this.state.playerHand}
-            />  */}
-
+            <div className="container white-text d-flex flex-column">
+              <p>temps restant: {this.props.timer}</p>
+            </div>
+            
             <Player
             // bank props
             bankHand = {this.state.bankHand}
