@@ -19,8 +19,12 @@ class App extends React.Component {
     this.state = {
       activeTab: "" /* 3 different states : homepage, game and result*/,
       score: 0,
+<<<<<<< HEAD
       setTimer: null,
       timer: 300,
+=======
+      result: true,
+>>>>>>> 6b6f520a9e4f9c0d6cd834628a289d841be75e0a
     };
   };
 
@@ -43,17 +47,36 @@ class App extends React.Component {
   handleClickPlay = () => {
     this.setState((prevState) => ({
       ...prevState,
+<<<<<<< HEAD
       activeTab: "game",
       setTimer: setInterval(this.gameTimer, 1000)
+=======
+      activeTab: "result",
+>>>>>>> 6b6f520a9e4f9c0d6cd834628a289d841be75e0a
     }));
   };
+
+  handleClickReplay = () => {
+    this.setState((prevState) => ({
+      ...prevState,
+      activeTab: "",
+    }))
+  }
 
   render() {
     switch (this.state.activeTab) {
       case "game":
         return <RunningGame timer={this.state.timer}/>;
       case "result":
-        return <Result />;
+        return (
+          <div className="text-center" style={{ color: "white" }}>
+              <div className="flex">
+              <img src="/img/title-app.png" alt="logo" style={{ width: "350px"}}></img>
+              </div>
+              <Result win={this.state.result} />
+              <Button onClick={this.handleClickReplay}>Replay</Button>
+          </div>          
+          )
       default:
         return (
           <div className="pt-3 bck-image">
