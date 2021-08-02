@@ -7,6 +7,11 @@ import Result from "./Components/Result";
 import Rules from "./Components/Rules";
 import RunningGame from "./Components/RunningGame";
 
+// To do : fonction is-valid/is-invalid 
+// Result components
+// New API + 1 car
+// fix le problème de blackjack
+
 class App extends React.Component {
   constructor() {
     super();
@@ -15,7 +20,7 @@ class App extends React.Component {
       activeTab: "" /* 3 different states : homepage, game and result*/,
       score: 0,
     };
-  }
+  };
 
   handleClickPlay = () => {
     this.setState((prevState) => ({
@@ -32,16 +37,22 @@ class App extends React.Component {
         return <Result />;
       default:
         return (
-          <div className="pt-3" >
+          <div className="pt-3 bck-image">
             <div className="flex">
               <img src="/img/title-app.png" alt="logo" style={{ width: "350px"}}></img>
             </div>
-            <Rules />
-            <Button onClick={this.handleClickPlay}>Play</Button>
+
+            <div className="rules-container">
+              <Rules />
+            </div>
+
+            <div className="d-flex justify-content-center button-container">
+              <Button onClick={this.handleClickPlay}>Play</Button>
+            </div>
           </div>
         );
-    }
-  }
-}
+    };
+  };
+};
 
 export default App;

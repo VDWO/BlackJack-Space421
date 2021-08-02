@@ -6,13 +6,13 @@ class Button extends React.Component {
       <div>
         <button
         type="button"
-        className="btn btn-success"
+        className="btn btn-danger"
         onClick={this.props.onClick}>
           {this.props.children}
         </button>
       </div>
     );
-  }
-}
+  };
+};
 
 export default Button;
