@@ -9,7 +9,6 @@ import RunningGame from "./Components/RunningGame";
 
 // To do : fonction is-valid/is-invalid 
 // Result components
-// New API + 1 car
 // fix le problème de blackjack
 
 class App extends React.Component {

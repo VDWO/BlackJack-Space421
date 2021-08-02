@@ -71,17 +71,8 @@ class RunningGame extends React.Component {
     return handValueCalulated
   };
 
- /*  // Fonction qui permet au joueur de miser
-  updateBetPlayer = (e) => {
-    this.setState((prevState) => ({
-        ...prevState
-        bet: parseInt(e.target.value),
-    }));
-  }; */
-
   // Une fois que le joueur à miser, cette fonction met à jour le state 'isBet', cet état permet de passer en mode jeu
   updateBetStatus = (e) => {
-        
     if (e > this.state.playerCash) {
       return console.log("can't play, you don't have enough money!") // alerte ou button pour setState le cashPlayer
     } else {
@@ -91,7 +82,24 @@ class RunningGame extends React.Component {
         bet: e,
       }));
     };
+
+    if (this.handValue("bankHand") === 21 || this.handValue("playerHand") === 21) {
+      this.setState((prevState) => ({
+        ...prevState,
+        isBet: "blackjack",
+      }))
+      console.log("black jack")
+    }
   };
+
+  // Fonction qui permet de rénitialiser le isBet à 'bet'
+  updateBlackJackStatus = () => {
+    this.setState((prevState) => ({
+      ...prevState,
+      playerCash: prevState.playerCash - this.state.bet,
+      isBet: "bet",
+    }))
+  }
 
   // Fonction qui permet d'ajouter un carte à la main d'un joueur
   addPlayerCard = () => {
@@ -127,7 +135,6 @@ class RunningGame extends React.Component {
          this.addbankCard()
          return; // on arrêt updateCashPlayer 
       } 
-    
       if (this.handValue("bankHand")  > 21) {
         this.setState((prevState) => ({
           ...prevState,
@@ -196,6 +203,8 @@ class RunningGame extends React.Component {
             //updateBetStatus = {this.updateBetStatus} //////
 
             nextRound = {this.nextRound}
+            handValue = {this.handValue}
+            blackJack = {this.updateBlackJackStatus}
             />
         </div>
     );

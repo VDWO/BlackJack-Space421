@@ -7,7 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from "./Button";
 import Card from "./Card";
 // Importation image/gif
-//import {cagnotte} from "./img/compteur.gif"
+// import {cagnotte} from "./img/compteur.gif"
 
 
 class Player extends React.Component {
@@ -22,7 +22,6 @@ constructor() {
 
   handleUpdateBet = () => {
     const param = this.state.temporyBet
-    console.log(param)
 
     this.props.updateBet(param)
   };
@@ -34,6 +33,20 @@ constructor() {
     }));
   };
 
+  renderClass(param, param2) {
+    if (this.props[`${param}`] > 21) {
+      return "badge bg-danger text-dark width-value mb"
+    } else if (this.props[`${param2}`] > 21) {
+      return "badge bg-success text-dark width-value mb"
+    } else if (this.props[`${param}`] < this.props[`${param2}`]) {
+      return "badge bg-danger text-dark width-value mb"
+    } else if (this.props[`${param}`] > this.props[`${param2}`]) {
+      return "badge bg-success text-dark width-value mb"
+    } else { // égalité
+      return "badge bg-info text-dark width-value mb"
+    }  
+  };
+
   renderSwitch() {
     const expr = this.props.isBetState;
     switch (expr) {
@@ -41,7 +54,8 @@ constructor() {
         case "bet":
 
           return (
-            <div className="container white-text d-flex flex-column">
+            <div className="container white-text d-flex flex-column d-flex flex-column justify-content-center align-items-center mb3">
+              <img src="/img/title-app.png" alt="logo" style={{ width: "350px"}}></img>
               {/* <img src={cagnotte} alt="compteurCagnotte">{this.props.playerCash}€</img> */}
               <p>{this.props.playerCash}€</p>
               <form>
@@ -59,8 +73,6 @@ constructor() {
             {/* <img src={cagnotte} alt="compteurCagnotte">{this.props.playerCash}€</img> */}
             <p>{this.props.playerCash}€</p>
             <p className="text-center">Your bet: {this.props.bet}€</p>
-
-            {/* <Card bankHand={this.props.bankHand}/> */}
 
             <div className="d-flex flex-row bd-highlight mb">
               {this.props.bankHand.slice(0, 1).map(card =>
@@ -91,18 +103,15 @@ constructor() {
               <p>{this.props.playerCash}€</p>
               <p className="text-center">Your bet: {this.props.bet}€</p>
 
-              <span className={(this.props.bankHandValue > this.props.playerHandValue && this.props.bankHandValue < 21) 
-                ? "badge bg-success text-dark width-value mb" 
-                : "badge bg-danger text-dark width-value mb"}>{this.props.bankHandValue}</span> 
+              <span className={this.renderClass("bankHandValue", "playerHandValue")}>{this.props.bankHandValue}</span> 
+              
 
               <div className="d-flex flex-row bd-highlight mb">
                 {this.props.bankHand.map(card =>
                   <Card img = {card}/>)}
               </div>
 
-                <span className={(this.props.playerHandValue > this.props.bankHandValue && this.props.playerHandValue < 21)
-                ? "badge bg-success text-dark width-value mb"
-                : "badge bg-danger text-dark width-value mb"}>{this.props.playerHandValue}</span>
+                <span className={this.renderClass("playerHandValue", "bankHandValue")}>{this.props.playerHandValue}</span>
 
               <div className="d-flex flex-row bd-highlight mb">
                 {this.props.playerHand.map(card =>
@@ -114,6 +123,21 @@ constructor() {
               </div>
             </div>
             );
+
+          case "blackjack":
+            return(
+              <div className="container d-flex flex-column justify-content-center align-items-center mb3">
+              <img src="/img/title-app.png" alt="logo" style={{ width: "350px"}}></img>
+
+                {this.props.bankHandValue === 21 
+                ? <div className="white-text size mb3">Bank</div> 
+                : <div className="white-text size mb3">Player</div>}
+
+                <span className="white-text size mb3">BLACK JACK</span>
+
+                <Button onClick={this.props.blackJack}>Continue</Button>
+              </div>
+            )
 
       default:
       console.log(`Error Game State`);
