@@ -16,7 +16,7 @@ class RunningGame extends React.Component {
       playerHand: [],
       playerCash: 100,
       bet: 0,
-      isBet: "bet", // bet / play / result 
+      isBet: "bet", // bet / play / result
     };
   };
 
@@ -35,11 +35,17 @@ class RunningGame extends React.Component {
 
   // Fonction qui permet de distribuer 2 cartes a chaque joueur (et Banque)
   setRound = () => {
-    this.setState(prevState => ({
-      ...prevState,
-      playerHand: [this.drawCard(),this.drawCard()],
-      bankHand: [this.drawCard(),this.drawCard()]
-    }));
+    if (this.state.playerCash === 0) {
+      this.props.endGame("lost")
+    } else if (this.state.playerCash >= 200) {
+      this.props.endGame("win")
+    } else {
+      this.setState(prevState => ({
+        ...prevState,
+        playerHand: [this.drawCard(),this.drawCard()],
+        bankHand: [this.drawCard(),this.drawCard()],
+      }));
+    }
   };
 
   componentDidUpdate() {
@@ -178,11 +184,10 @@ class RunningGame extends React.Component {
   render() {
     return (
         <div >
-            {/* <Card 
-            bankHand = {this.state.bankHand}
-            playerHand = {this.state.playerHand}
-            />  */}
-
+            <div className="container white-text d-flex flex-column">
+              <p>temps restant: {this.props.timer}</p>
+            </div>
+            
             <Player
             // bank props
             bankHand = {this.state.bankHand}
