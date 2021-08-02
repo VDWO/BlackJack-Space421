@@ -35,11 +35,17 @@ class RunningGame extends React.Component {
 
   // Fonction qui permet de distribuer 2 cartes a chaque joueur (et Banque)
   setRound = () => {
-    this.setState(prevState => ({
-      ...prevState,
-      playerHand: [this.drawCard(),this.drawCard()],
-      bankHand: [this.drawCard(),this.drawCard()],
-    }));
+    if (this.state.playerCash === 0) {
+      this.props.endGame("lost")
+    } else if (this.state.playerCash >= 200) {
+      this.props.endGame("win")
+    } else {
+      this.setState(prevState => ({
+        ...prevState,
+        playerHand: [this.drawCard(),this.drawCard()],
+        bankHand: [this.drawCard(),this.drawCard()],
+      }));
+    }
   };
 
   componentDidUpdate() {

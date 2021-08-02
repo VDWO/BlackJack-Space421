@@ -19,12 +19,9 @@ class App extends React.Component {
     this.state = {
       activeTab: "" /* 3 different states : homepage, game and result*/,
       score: 0,
-<<<<<<< HEAD
       setTimer: null,
       timer: 300,
-=======
-      result: true,
->>>>>>> 6b6f520a9e4f9c0d6cd834628a289d841be75e0a
+      result: false,
     };
   };
 
@@ -33,10 +30,15 @@ class App extends React.Component {
     if (this.state.timer === 0) {
       this.setState((prevState) => ({
         ...prevState,
-        setTimer: clearInterval(prevState.setTimer), // Stop le setInterval
-    }));
-      // Lance le component end avec la valeur perdu
+        setTimer: clearInterval(prevState.setTimer), // Stop le setInterval ////
+        activeTab: "result", // Lance le component result
+        result: false, // on passe au component result la valeur 'perdu' car le chrono est terminé
+        timer: 300 // On reset le timer
+      }), () => {
+        console.log(this.state.setTimer)
+      });  
     } else {
+      console.log(this.state.setTimer)
       this.setState((prevState) => ({
             ...prevState,
             timer: prevState.timer - 1
@@ -45,14 +47,11 @@ class App extends React.Component {
   }
 
   handleClickPlay = () => {
+    let setTimerVar = setInterval(this.gameTimer, 1000)
     this.setState((prevState) => ({
       ...prevState,
-<<<<<<< HEAD
       activeTab: "game",
-      setTimer: setInterval(this.gameTimer, 1000)
-=======
-      activeTab: "result",
->>>>>>> 6b6f520a9e4f9c0d6cd834628a289d841be75e0a
+      setTimer: setTimerVar
     }));
   };
 
@@ -63,10 +62,30 @@ class App extends React.Component {
     }))
   }
 
+  endGame = (param) => {
+    if (param === "win") {
+      this.setState((prevState) => ({
+        ...prevState,
+        activeTab: "result",
+        result: true,
+        setTimer: clearInterval(prevState.setTimer),
+        timer: 300,
+      }))
+    } else if (param === "lost") {
+      this.setState((prevState) => ({
+        ...prevState,
+        activeTab: "result",
+        result: false,
+        setTimer: clearInterval(prevState.setTimer),
+        timer: 300,
+      }))
+    }
+  }
+
   render() {
     switch (this.state.activeTab) {
       case "game":
-        return <RunningGame timer={this.state.timer}/>;
+        return <RunningGame timer={this.state.timer} endGame = {this.endGame} />;
       case "result":
         return (
           <div className="text-center" style={{ color: "white" }}>
