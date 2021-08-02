@@ -19,22 +19,38 @@ class App extends React.Component {
     this.state = {
       activeTab: "" /* 3 different states : homepage, game and result*/,
       score: 0,
+      result: true,
     };
   };
 
   handleClickPlay = () => {
     this.setState((prevState) => ({
       ...prevState,
-      activeTab: "game",
+      activeTab: "result",
     }));
   };
+
+  handleClickReplay = () => {
+    this.setState((prevState) => ({
+      ...prevState,
+      activeTab: "",
+    }))
+  }
 
   render() {
     switch (this.state.activeTab) {
       case "game":
         return <RunningGame />;
       case "result":
-        return <Result />;
+        return (
+          <div className="text-center" style={{ color: "white" }}>
+              <div className="flex">
+              <img src="/img/title-app.png" alt="logo" style={{ width: "350px"}}></img>
+              </div>
+              <Result win={this.state.result} />
+              <Button onClick={this.handleClickReplay}>Replay</Button>
+          </div>          
+          )
       default:
         return (
           <div className="pt-3 bck-image">
