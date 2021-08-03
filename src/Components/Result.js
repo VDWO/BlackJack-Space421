@@ -10,7 +10,7 @@ class Result extends React.Component {
         {/* Gif téléchargé ou importé d'une API */}
         <p>You managed to beat the bank ! Well done !</p>
       </div>
-      )
+      );
     } else if (this.props.win === false) {
       return (
         <div className="text-center" style={{ color: "white" }}>
@@ -18,11 +18,9 @@ class Result extends React.Component {
           {/* Gif téléchargé ou importé d'une API */}
           <p>Unlucky ! You lost everything, you can try again and you might beat the bank this time.</p>
         </div>
-      )
-    }
-    
-
-  }
-}
+      );
+    };
+  };
+};
 
 export default Result;

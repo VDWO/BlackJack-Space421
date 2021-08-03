@@ -19,6 +19,14 @@
     margin-bottom: 3rem;
 }
 
+.mt3 {
+    margin-top: 3rem;
+}
+
 .size {
     font-size: 2rem;
+}
+
+.padding {
+    margin-left: 2rem;
 }

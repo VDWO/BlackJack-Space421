@@ -29,7 +29,7 @@ class Card extends React.Component {
     render() {
         return (
             <div>
-                <img src={this.state.image} alt="card" style={{ width: "180px"}}></img>
+                <img src={this.state.image} alt="As de diamand" style={{ width: "150px"}}></img>
             </div>
         )};
 };

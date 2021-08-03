@@ -1,26 +1,35 @@
 import React from "react";
 // Components
 import Player from "./Player";
-//import Button from "./Button";
-//import Card from "./Card";
-
-// Notes: je ne rentre pas dans le fonction err(), ajouter les images? le fetch ne fonctionne pas
+// CSS
+import "./RunningGame.modules.css";
 
 class RunningGame extends React.Component {
   constructor() {
     super();
 
     this.state = {
-      image: "",
       bankHand: [],
       playerHand: [],
       playerCash: 100,
       bet: 0,
-      isBet: "bet", // bet / play / result
+      isBet: "bet",
     };
   };
 
-  // Fonction qui permet de piocher une carte
+  componentDidUpdate() {
+    console.log(this.state)
+    this.handValue("bankHand")
+    console.log("Bank hand", this.handValue("bankHand"))
+    this.handValue("playerHand")
+    console.log("Player hand", this.handValue("playerHand"))
+  };
+
+  componentDidMount() {
+    this.setRound()
+  };
+
+  // Fonction random card
   drawCard = () => {
     const cardArray = [
       ["AD","2D","3D","4D","5D","6D","7D","8D","9D","0D","JD","QD","KD"],
@@ -33,7 +42,7 @@ class RunningGame extends React.Component {
     return cardArray[cardSuits][cardNumber]
   };
 
-  // Fonction qui permet de distribuer 2 cartes a chaque joueur (et Banque)
+  // Lancement de la partie
   setRound = () => {
     if (this.state.playerCash === 0) {
       this.props.endGame("lost")
@@ -48,20 +57,9 @@ class RunningGame extends React.Component {
     };
   };
 
-  componentDidUpdate() {
-    console.log(this.state)
-    this.handValue("bankHand")
-    console.log("Bank hand", this.handValue("bankHand"))
-    this.handValue("playerHand")
-    console.log("Player hand", this.handValue("playerHand"))
-  };
-  componentDidMount() {
-    this.setRound()
-  };
-
-  // Fonction qui somme les cartes en main du joueur ou de la bank
+  // Valeur de la main 
   handValue = (param) => {
-    let handValueCalulated = 0
+    let handValueCalulated = 0;
 
     this.state[`${param}`].map(card => {  
         if (card.substring(0, (card.length - 1)) === "A") {
@@ -77,10 +75,11 @@ class RunningGame extends React.Component {
     return handValueCalulated
   };
 
-  // Une fois que le joueur à miser, cette fonction met à jour le state 'isBet', cet état permet de passer en mode jeu
+  // Fonction changement de view
+
   updateBetStatus = (e) => {
     if (e > this.state.playerCash) {
-      return console.log("can't play, you don't have enough money!") // alerte ou button pour setState le cashPlayer
+      return console.log("can't play, you don't have enough money!") 
     } else {
       this.setState((prevState) => ({
         ...prevState,
@@ -98,16 +97,17 @@ class RunningGame extends React.Component {
     }
   };
 
-  // Fonction qui permet de rénitialiser le isBet à 'bet'
   updateBlackJackStatus = () => {
     this.setState((prevState) => ({
       ...prevState,
       playerCash: prevState.playerCash + (this.state.bet * 1.5),
       isBet: "bet",
-    }))
-  }
+    }));
+    this.nextRound()
+  };
 
-  // Fonction qui permet d'ajouter un carte à la main d'un joueur
+  // Add card 
+
   addPlayerCard = () => {
     this.setState(prevState => ({
      ...prevState,
@@ -124,7 +124,6 @@ class RunningGame extends React.Component {
     });
   };
 
-  // Fonction qui permet d'ajouter un carte à la main de la banque
   addbankCard = () => {
     this.setState(prevState => ({
       ...prevState,
@@ -134,7 +133,7 @@ class RunningGame extends React.Component {
     });
   };
 
-  // Fonction qui permet d'ajouter des carte au banquier et/ou de comparer le résultat du round
+  // MaJ playerCash + check résultats
   updateCashPlayer = () => {
 
       if (this.handValue("bankHand") < 16) {
@@ -171,21 +170,22 @@ class RunningGame extends React.Component {
       }
   };
 
-    // Fonction qui relance les rounds
-    nextRound = () => {
-      this.setRound()
-      this.setState(prevState => ({
-        ...prevState,
-        isBet: "bet",
-        playerCash: prevState.playerCash
-      }));
-    };
+  // Fonction qui lance le prochain round
+  nextRound = () => {
+    this.setRound()
+    this.setState(prevState => ({
+      ...prevState,
+      isBet: "bet",
+      playerCash: prevState.playerCash
+    }));
+  };
 
   render() {
     return (
         <div >
-            <div className="container white-text d-flex flex-column">
-              <p>temps restant: {this.props.timer}</p>
+            <div className="container white-text d-flex flex-column mt">
+              <p>timer: {this.props.timer} seconds</p>
+              <p className="white-text">your cash: {this.state.playerCash}€</p>
             </div>
             
             <Player
@@ -198,22 +198,22 @@ class RunningGame extends React.Component {
             playerHand = {this.state.playerHand}
             playerCash = {this.state.playerCash}
             playerHandValue = {this.handValue("playerHand")}
-            updateBet = {this.updateBetStatus} ///////
+            updateBet = {this.updateBetStatus} 
             onClickPlay = {this.addPlayerCard}
             updateCash = {this.updateCashPlayer}
 
             // bet props
             bet = {this.state.bet}
             isBetState = {this.state.isBet}
-            //updateBetStatus = {this.updateBetStatus} //////
-
+  
+            // other props
             nextRound = {this.nextRound}
             handValue = {this.handValue}
             blackJack = {this.updateBlackJackStatus}
             />
         </div>
     );
-  }
-}
+  };
+};
 
 export default RunningGame;

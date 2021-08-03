@@ -7,16 +7,12 @@ import Result from "./Components/Result";
 import Rules from "./Components/Rules";
 import RunningGame from "./Components/RunningGame";
 
-// To do : fonction is-valid/is-invalid 
-// Result components
-// fix le problème de blackjack
-
 class App extends React.Component {
   constructor() {
     super();
 
     this.state = {
-      activeTab: "" /* 3 different states : homepage, game and result*/,
+      activeTab: "",
       score: 0,
       setTimer: null,
       timer: 300,
@@ -24,27 +20,27 @@ class App extends React.Component {
     };
   };
 
-  // Fonction Timer qui limite la durée de la partie à n secondes
+  // Timer
   gameTimer = () => {
     if (this.state.timer === 0) {
       this.setState((prevState) => ({
         ...prevState,
-        setTimer: clearInterval(prevState.setTimer), // Stop le setInterval ////
-        activeTab: "result", // Lance le component result
-        result: false, // on passe au component result la valeur 'perdu' car le chrono est terminé
-        timer: 300 // On reset le timer
+        setTimer: clearInterval(prevState.setTimer), 
+        activeTab: "result", 
+        result: false, 
+        timer: 300 
       }), () => {
         console.log(this.state.setTimer)
       });  
     } else {
-      console.log(this.state.setTimer)
       this.setState((prevState) => ({
             ...prevState,
             timer: prevState.timer - 1
         }));
-    }
-  }
+    };
+  };
 
+  // Fonctions de jeu
   handleClickPlay = () => {
     let setTimerVar = setInterval(this.gameTimer, 1000)
     this.setState((prevState) => ({
@@ -84,7 +80,10 @@ class App extends React.Component {
   render() {
     switch (this.state.activeTab) {
       case "game":
-        return <RunningGame timer={this.state.timer} endGame = {this.endGame} />;
+        return( <div>
+        <RunningGame timer={this.state.timer} endGame = {this.endGame} />
+        </div>
+        );
       case "result":
         return (
           <div className="text-center" style={{ color: "white" }}>
@@ -94,7 +93,7 @@ class App extends React.Component {
               <Result win={this.state.result} />
               <Button onClick={this.handleClickReplay}>Replay</Button>
           </div>          
-          )
+          );
       default:
         return (
           <div className="pt-3 bck-image">
